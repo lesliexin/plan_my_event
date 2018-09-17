@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
@@ -17,5 +17,13 @@ def event_detail(request, pk):
     return render(request, 'event_app/event_detail.html', {'event': event})
 
 def event_new(request):
-    form = EventForm()
-    return render(request, 'event_app/event_edit.html', {'form': form})
+	if request.method == "POST":
+		form = EventForm(request.POST)
+		if form.is_valid():
+			event = form.save(commit=False)
+			event.date = timezone.now()
+			event.save()
+			return redirect('event_detail', pk=event.pk)
+	else:
+		form = EventForm()
+	return render(request,'event_app/event_edit.html', {'form': form})
