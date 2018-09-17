@@ -27,3 +27,16 @@ def event_new(request):
 	else:
 		form = EventForm()
 	return render(request,'event_app/event_edit.html', {'form': form})
+
+def event_edit(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    if request.method == "POST":
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.date = timezone.now()
+            event.save()
+            return redirect('event_detail', pk=event.pk)
+    else:
+        form = EventForm(instance=event)
+    return render(request, 'event_app/event_edit.html', {'form': form})
