@@ -5,6 +5,7 @@ from django.views import generic
 from django.utils import timezone
 
 from .models import Event, Person
+from .forms import EventForm
 
 # Create your views here.
 def event_list(request):
@@ -14,3 +15,7 @@ def event_list(request):
 def event_detail(request, pk):
     event = get_object_or_404(Event, pk=pk)
     return render(request, 'event_app/event_detail.html', {'event': event})
+
+def event_new(request):
+    form = EventForm()
+    return render(request, 'event_app/event_edit.html', {'form': form})
