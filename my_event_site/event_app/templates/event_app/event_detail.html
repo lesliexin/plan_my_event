@@ -1,0 +1,12 @@
+{% extends 'event_app/base.html' %}
+
+{% block content %}
+    <div class="event">
+        {% if event.published_date %}
+            <div class="date">
+                {{ event.date }}
+            </div>
+        {% endif %}
+        <h1>{{ event.name }}</h1>
+    </div>
+{% endblock %}

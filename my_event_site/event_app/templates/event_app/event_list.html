@@ -1,17 +1,12 @@
-<html>
-    <head>
-        <title>Plan My Event</title>
-    </head>
-    <body>
-        <div>
-    		<h1><a href="/">Plan My Event</a></h1>
-		</div>
+{% extends 'event_app/base.html' %}
 
-		{% for event in events %}
-    		<div>
-        		<h3><a href="">{{ event.name }}</a></h3>
-        		<p>date: {{ event.date }}</p>
-    		</div>
-		{% endfor %}
-    </body>
-</html>
+{% block content %}
+	{% for event in events %}
+		<div call = "event">
+			<div class = "date">
+				{{ event.date }}
+			</div>
+			<h3><a href="{% url 'event_detail' pk=event.pk %}">{{ event.name }}</a></h3>
+		</div>
+	{% endfor %}
+{% endblock %}	
