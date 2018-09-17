@@ -8,4 +8,5 @@ from .models import Event, Person
 
 # Create your views here.
 def event_list(request):
-    return render(request, 'event_app/event_list.html', {})
+	events = Event.objects.all()
+	return render(request, 'event_app/event_list.html', {'events': events} )
