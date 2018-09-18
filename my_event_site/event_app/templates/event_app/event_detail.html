@@ -2,10 +2,12 @@
 
 
 {% block content %}
-	<h2><a href="{% url 'event_detail' pk=event.pk %}">{{ event.name }}</a></h3>
+	<div class = "name">
+		<h3>{{ event.name }}</h3>
+	</div>
 	{% for list in lists %}
 		<div call = "lists">
-			<h3><a href="{% url 'event_detail' pk=list.pk %}">{{ list.title }}</a></h3>
+			<h3><a href="">{{ list.title }}</a></h3>
 		</div>
 	{% endfor %}
 {% endblock %}	
