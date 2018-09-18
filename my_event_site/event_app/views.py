@@ -4,8 +4,8 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
-from .models import Event, Person
-from .forms import EventForm
+from .models import Event, Person, List
+from .forms import EventForm, ListForm
 
 # Create your views here.
 def event_list(request):
@@ -14,16 +14,25 @@ def event_list(request):
 
 def event_detail(request, pk):
     event = get_object_or_404(Event, pk=pk)
-    return render(request, 'event_app/event_detail.html', {'event': event})
+    lists1 = Event.objects.get(id=pk)
+    lists = list(lists1.list_set.all())
+
+    return render(request, 'event_app/event_detail.html', {'lists': lists, "event": event})
 
 def event_new(request):
 	if request.method == "POST":
 		form = EventForm(request.POST)
+		# form_list = ListForm(request.POST)
 		if form.is_valid():
 			event = form.save(commit=False)
 			event.date = timezone.now()
 			event.save()
-			return redirect('event_detail', pk=event.pk)
+			# list1 = form_list.save(commit=False)
+			# list1.save()
+			list1 = List(title="Guest List", an_event=event)
+			list1.save()
+
+			return redirect('event_list')
 	else:
 		form = EventForm()
 	return render(request,'event_app/event_edit.html', {'form': form})
