@@ -1,13 +1,10 @@
 {% extends 'event_app/base.html' %}
 
+
 {% block content %}
-    <div class="event">
-        {% if event.published_date %}
-            <div class="date">
-                {{ event.date }}
-            </div>
-        {% endif %}
-        <a class="btn btn-default" href="{% url 'event_edit' pk=event.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-        <h1>{{ event.name }}</h1>
-    </div>
-{% endblock %}
+	{% for list in lists %}
+		<div call = "event">
+			<h3><a href="{% url 'event_detail' pk=list.pk %}">{{ list.title }}</a></h3>
+		</div>
+	{% endfor %}
+{% endblock %}	
