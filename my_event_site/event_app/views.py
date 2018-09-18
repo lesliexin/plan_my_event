@@ -16,8 +16,9 @@ def event_detail(request, pk):
     event = get_object_or_404(Event, pk=pk)
     list_obj = get_object_or_404(List, pk=pk)
     lists1 = Event.objects.get(id=pk)
-    lists = lists1.list_set.all()
-    return render(request, 'event_app/event_detail.html', {'lists': lists})
+    lists = list(lists1.list_set.all())
+
+    return render(request, 'event_app/event_detail.html', {'lists': lists, "event": event})
 
 def event_new(request):
 	if request.method == "POST":

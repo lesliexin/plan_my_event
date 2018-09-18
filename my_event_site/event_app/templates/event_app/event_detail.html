@@ -2,8 +2,9 @@
 
 
 {% block content %}
+	<h2><a href="{% url 'event_detail' pk=event.pk %}">{{ event.name }}</a></h3>
 	{% for list in lists %}
-		<div call = "event">
+		<div call = "lists">
 			<h3><a href="{% url 'event_detail' pk=list.pk %}">{{ list.title }}</a></h3>
 		</div>
 	{% endfor %}
