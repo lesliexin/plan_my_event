@@ -1,6 +1,7 @@
 {% extends 'event_app/base.html' %}
 
 {% block content %}
+	<a href="{% url 'event_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
 	{% for event in events %}
 		<div call = "event">
 			<div class = "date">
