@@ -12,7 +12,7 @@ PRIORITY_CHOICES = (
 # Create your models here.
 class Event( models.Model ):
 	name = models.CharField(max_length = 200)
-	date = models.DateTimeField('date published')
+	date = models.DateTimeField('Date of event')
 
 
 	def __str__(self):

@@ -14,7 +14,6 @@ def event_list(request):
 
 def event_detail(request, pk):
     event = get_object_or_404(Event, pk=pk)
-    list_obj = get_object_or_404(List, pk=pk)
     lists1 = Event.objects.get(id=pk)
     lists = list(lists1.list_set.all())
 
@@ -27,7 +26,9 @@ def event_new(request):
 			event = form.save(commit=False)
 			event.date = timezone.now()
 			event.save()
-			return redirect('event_detail', pk=event.pk)
+			list1 = List(title="Guest List", an_event=event)
+			list1.save()
+			return redirect('event_detail')
 	else:
 		form = EventForm()
 	return render(request,'event_app/event_edit.html', {'form': form})
