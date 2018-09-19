@@ -1,10 +1,8 @@
 {% extends 'event_app/base.html' %}
 
-
 {% block content %}
 	<div class = "name">
-		<a href="{% url 'event_list' %}" class="content"><span class="glyphicon glyphicon-arrow-left"></span></a>
-		<a href="{% url 'list_new' pk=event.pk %}" class="content"><span class="glyphicon glyphicon-plus"></span></a>
+		<!-- <a href="{% url 'list_new' pk=event.pk %}" class="content"><span class="glyphicon glyphicon-plus"></span></a> -->
 		<h3>{{ event.name }}</h3>
 	</div>
 	{% for list in lists %}
