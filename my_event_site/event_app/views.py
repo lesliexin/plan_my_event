@@ -16,7 +16,7 @@ def event_detail(request, pk):
     event = get_object_or_404(Event, pk=pk)
     which_event = Event.objects.get(id=pk)
     lists = list(which_event.list_set.all())
-    guestlist = list(which_event.guestlist_set.all())
+    guestlist = list(which_event.guestlist_set.all()[0].person_set.all())
     list_titles = []
     items = []
     item_list = []
@@ -26,15 +26,12 @@ def event_detail(request, pk):
         items.append(item_list)
         list_titles.append(list_.title)
         nums.insert(indx,indx)
-    length = len(list_titles)
-
 
     return render(request, 'event_app/event_detail.html', {
         'list_titles': list_titles, 
         'event': event, 
         'guestlist': guestlist, 
         'items': items,
-        'length': length,
         'nums': nums
     })
 
@@ -78,3 +75,27 @@ def list_new(request, pk):
     else:
         form = ListForm()
     return render(request,'event_app/event_edit.html', {'form': form})
+
+
+def list_detail(request, pk_e, pk_l):
+    event = get_object_or_404(Event, pk=pk_e)
+    which_event = Event.objects.get(id=pk_e)
+    lists = list(which_event.list_set.all())
+    guestlist = list(which_event.guestlist_set.all())
+    list_titles = []
+    items = []
+    item_list = []
+    nums = []
+    for indx, list_ in enumerate(lists):
+        item_list = list(lists[indx].item_set.all())
+        items.append(item_list)
+        list_titles.append(list_.title)
+        nums.insert(indx,indx)
+
+    return render(request, 'event_app/event_detail.html', {
+        'list_titles': list_titles, 
+        'event': event, 
+        'guestlist': guestlist, 
+        'items': items,
+        'nums': nums
+    })
