@@ -28,8 +28,18 @@ class List(models.Model):
   class Admin: 
     pass
 
+class Guestlist(models.Model): 
+  title = models.CharField(max_length=250, default="", unique=False) 
+  an_event = models.ForeignKey(Event, on_delete = models.CASCADE) 
+  def __str__(self): 
+    return self.title 
+  class Meta: 
+    ordering = ['title'] 
+  class Admin: 
+    pass
+
 class Person( models.Model ):
-	a_list = models.ForeignKey(List, on_delete = models.CASCADE)
+	a_list = models.ForeignKey(Guestlist, on_delete = models.CASCADE)
 	full_name = models.CharField(max_length=50, default="") 
 	created_date = models.DateTimeField(default=datetime.datetime.now) 
 	will_attend = models.BooleanField(default=False)
@@ -43,10 +53,10 @@ class Person( models.Model ):
 
 class Item(models.Model): 
   title = models.CharField(max_length=250, default="") 
-  created_date = models.DateTimeField(default=datetime.datetime.now) 
+  created_date = datetime.datetime.now
   priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2) 
   completed = models.BooleanField(default=False) 
-  todo_list = models.ForeignKey(List, on_delete = models.CASCADE) 
+  a_list = models.ForeignKey(List, on_delete = models.CASCADE) 
   def __str__(self): 
     return self.title 
   class Meta: 

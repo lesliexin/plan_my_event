@@ -5,7 +5,7 @@
 		<!-- <a href="{% url 'list_new' pk=event.pk %}" class="content"><span class="glyphicon glyphicon-plus"></span></a> -->
 		<h3>{{ event.name }}</h3>
 	</div>
-	{% for list in lists %}
+	{% for idx, list in enumerate(lists) %}
 		<div call = "lists">
 			<h3><a href="">{{ list.title }}</a></h3>
 		</div>

@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
-from .models import Event, Person, List
+from .models import Event, Person, List, Guestlist
 from .forms import EventForm, ListForm
 
 # Create your views here.
@@ -14,10 +14,29 @@ def event_list(request):
 
 def event_detail(request, pk):
     event = get_object_or_404(Event, pk=pk)
-    lists1 = Event.objects.get(id=pk)
-    lists = list(lists1.list_set.all())
+    which_event = Event.objects.get(id=pk)
+    lists = list(which_event.list_set.all())
+    guestlist = list(which_event.guestlist_set.all())
+    list_titles = []
+    items = []
+    item_list = []
+    nums = []
+    for indx, list_ in enumerate(lists):
+        item_list = list(lists[indx].item_set.all())
+        items.append(item_list)
+        list_titles.append(list_.title)
+        nums.insert(indx,indx)
+    length = len(list_titles)
 
-    return render(request, 'event_app/event_detail.html', {'lists': lists, "event": event})
+
+    return render(request, 'event_app/event_detail.html', {
+        'list_titles': list_titles, 
+        'event': event, 
+        'guestlist': guestlist, 
+        'items': items,
+        'length': length,
+        'nums': nums
+    })
 
 def event_new(request):
 	if request.method == "POST":
@@ -26,8 +45,8 @@ def event_new(request):
 			event = form.save(commit=False)
 			event.date = timezone.now()
 			event.save()
-			list1 = List(title="Guest List", an_event=event)
-			list1.save()
+			guestlist = Guestlist(title="Guest List", an_event=event)
+			guestlist.save()
 			return redirect('event_detail', pk=event.pk)
 	else:
 		form = EventForm()

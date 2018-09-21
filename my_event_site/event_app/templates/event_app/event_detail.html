@@ -5,11 +5,31 @@
 	<div class = "name">
 		<a href="{% url 'event_list' %}" class="content"><span class="glyphicon glyphicon-arrow-left"></span></a>
 		<a href="{% url 'list_new' pk=event.pk %}" class="content"><span class="glyphicon glyphicon-plus"></span></a>
-		<h3>{{ event.name }}</h3>
+		<h2>{{ event.name }}</h2>
 	</div>
-	{% for list in lists %}
-		<div call = "lists">
-			<h3><a href="">{{ list.title }}</a></h3>
+	
+	{% for item_list in items %}
+		{% load index %}
+		<div call = "lists3">
+			<h3> {{ list_titles | index:forloop.counter0 }} </h3>
+			{% for item in item_list %}
+				<h4> {{ item }} </h4>
+			{% endfor %}
 		</div>
 	{% endfor %}
+	
+	<!-- {% for title in list_titles %}
+		<div call = "lists3">
+			<h4> {{ title }} </h3>
+		</div>
+	{% endfor %}
+	{% for list_ in items %}
+		<div call = "lists">
+			{% for item in list_ %}
+				<div call = "lists2">
+					<h4> {{ item.title }} </h3>
+				</div>
+			{% endfor %}
+		</div>
+	{% endfor %} -->
 {% endblock %}	
