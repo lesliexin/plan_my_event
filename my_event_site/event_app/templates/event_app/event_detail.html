@@ -18,10 +18,12 @@
 	{% for item_list in items %}
 		{% load index %}
 		<div call = "lists3">
-			<h3> {{ list_titles | index:forloop.counter0 }} </h3>
-			{% for item in item_list %}
-				<h4> {{ item }} </h4>
-			{% endfor %}
+			<h3> <a href="{% url 'list_detail' pk=event.pk pk2=lists_.0.pk %}">{{ list_titles | index:forloop.counter0 }} </h3>
+			<div call = "items">
+				{% for item in item_list %}
+					<h4> {{ item }} </h4>
+				{% endfor %}
+			</div>
 		</div>
 	{% endfor %}
 {% endblock %}	

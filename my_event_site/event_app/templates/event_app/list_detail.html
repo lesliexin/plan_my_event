@@ -1,13 +1,13 @@
 {% extends 'event_app/base.html' %}
 
 {% block content %}
-	<div class = "name">
-		<!-- <a href="{% url 'list_new' pk=event.pk %}" class="content"><span class="glyphicon glyphicon-plus"></span></a> -->
-		<h3>{{ event.name }}</h3>
+	<div class = "title">
+		<h3>{{ which_list.title }}</h3>
 	</div>
-	{% for idx, list in enumerate(lists) %}
-		<div call = "lists">
-			<h3><a href="">{{ list.title }}</a></h3>
+	{% for item in items %}
+		<div call = "items">
+			<h3><a href="">{{ item.title }}</a></h3>
 		</div>
 	{% endfor %}
+	<!-- <h3> test lol </h3> -->
 {% endblock %}	
