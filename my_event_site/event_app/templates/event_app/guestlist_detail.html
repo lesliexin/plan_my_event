@@ -2,10 +2,18 @@
 
 {% block content %}
 	<div class = "title">
-		<a href="{% url 'event_detail' pk=event.pk%}" class="content"><span class="glyphicon glyphicon-arrow-left"></span></a>
-		<h3> Guest List </h3>
+		<a href="{% url 'event_detail' pk=event.pk%}" class="content">Back  <span class="glyphicon glyphicon-arrow-left"></span></a>
+		<a href="{% url 'person_new' pk=event.pk %}" class="content">New Guest  <span class="glyphicon glyphicon-plus"></span></a>
+		<h2> {{ event.name }} - Guest List </h2>
 	</div>
-	{% for person in people %}
+	<h3> Attending </h3>
+	{% for person in people_going %}
+		<div call = "people">
+			<h4>{{ person.full_name}}</h4>
+		</div>
+	{% endfor %}
+	<h3> Not Attending </h3>
+	{% for person in people_not_going %}
 		<div call = "people">
 			<h4>{{ person.full_name}}</h4>
 		</div>

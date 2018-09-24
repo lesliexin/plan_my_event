@@ -3,9 +3,13 @@
 
 {% block content %}
 	<div class = "name">
-		<a href="{% url 'event_list' %}" class="content"><span class="glyphicon glyphicon-arrow-left"></span></a>
-		<a href="{% url 'list_new' pk=event.pk %}" class="content"><span class="glyphicon glyphicon-plus"></span></a>
+		<a href="{% url 'event_list' %}" class="content">Back  <span class="glyphicon glyphicon-arrow-left"></span></a>
+		<a href="{% url 'list_new' pk=event.pk %}" class="content">New List  <span class="glyphicon glyphicon-plus"></span></a>
+		<a href="{% url 'event_edit' pk=event.pk %}" class="content">Edit Event  <span class="glyphicon glyphicon-pencil"></span></a>
 		<h2>{{ event.name }}</h2>
+		<div class = "date">
+			{{ event.date }}
+		</div>
 	</div>
 
 	<div call = "guests">

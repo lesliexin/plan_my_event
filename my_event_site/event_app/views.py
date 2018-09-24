@@ -5,7 +5,7 @@ from django.views import generic
 from django.utils import timezone
 
 from .models import Event, Person, List, Guestlist, Item
-from .forms import EventForm, ListForm, ItemForm
+from .forms import EventForm, ListForm, ItemForm, PersonForm
 
 # Create your views here.
 def event_list(request):
@@ -43,7 +43,6 @@ def event_new(request):
 		form = EventForm(request.POST, instance=Event())
 		if form.is_valid():
 			event = form.save(commit=False)
-			event.date = timezone.now()
 			event.save()
 			guestlist = Guestlist(title="Guest List", an_event=event)
 			guestlist.save()
@@ -86,10 +85,12 @@ def list_detail(request, pk, pk2):
     lists = list(which_event.list_set.all())
     list_title = lists[pk2]
     which_list = which_event.list_set.get(title = list_title)   
-    items = list(which_list.item_set.all())
+    items_completed = which_list.item_set.filter(completed = True)
+    items_not_completed = which_list.item_set.filter(completed = False)
 
     return render(request,'event_app/list_detail.html', {
-        'items': items, 
+        'items_completed': items_completed, 
+        'items_not_completed': items_not_completed,
         'which_list': which_list,
         'event': event
     })
@@ -99,10 +100,13 @@ def list_detail(request, pk, pk2):
 def guestlist_detail(request, pk):
     event = get_object_or_404(Event, pk=pk)
     which_event = Event.objects.get(id=pk)
-    people = which_event.guestlist_set.get(title = 'Guest List').person_set.all()
+    people = which_event.guestlist_set.get(title = 'Guest List')
+    people_going = people.person_set.filter(will_attend = True)
+    people_not_going = people.person_set.filter(will_attend = False)
 
     return render(request,'event_app/guestlist_detail.html', {
-        'people': people, 
+        'people_going': people_going, 
+        'people_not_going': people_not_going,
         'event': event
     })
 
@@ -119,5 +123,20 @@ def item_new(request, pk, pk2):
             return redirect('event_detail', pk=event.pk)
     else:
         form = ItemForm()
+    return render(request,'event_app/event_edit.html', {'form': form})
+
+def person_new(request, pk):
+    if request.method == "POST":
+        event = get_object_or_404(Event, pk=pk)
+        guestlist = event.guestlist_set.all()[0]
+        form = PersonForm(request.POST, instance=Person())
+        if form.is_valid():
+            person = form.save(commit=False)
+            person.a_list = guestlist
+            person.created_date = timezone.now()
+            person.save()
+            return redirect('event_detail', pk=event.pk)
+    else:
+        form = PersonForm()
     return render(request,'event_app/event_edit.html', {'form': form})
    

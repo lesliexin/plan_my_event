@@ -11,4 +11,5 @@ urlpatterns = [
     path('guestlist/<int:pk>/', views.guestlist_detail, name='guestlist_detail'),
     path('guestlist/<int:pk>/', views.guestlist_detail, name='guestlist_detail'),
     path('item/<int:pk>/<int:pk2>', views.item_new, name='item_new'),
+    path('person/<int:pk>/', views.person_new, name='person_new'),
 ]

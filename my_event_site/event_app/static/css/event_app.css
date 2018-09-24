@@ -11,7 +11,7 @@
 }
 
 .content {
-    margin-left: 40px;
+    margin-left: 50px;
 }
 
 h1, h2, h3, h4 {
@@ -20,6 +20,8 @@ h1, h2, h3, h4 {
 
 .date {
     color: #828282;
+    margin-left: 8px;
+    margin-bottom: 30px;
 }
 
 .save {
@@ -43,4 +45,16 @@ h1, h2, h3, h4 {
 
 .event h1 a, .event h1 a:visited {
     color: #000000;
+    float: left;
+    margin-right: 8px;
+    margin-left: 8px;
+}
+
+.item {
+    margin-top: 50px;
+}
+
+#event1, #event2{
+    margin-right:100px;
+    float:left;
 }
