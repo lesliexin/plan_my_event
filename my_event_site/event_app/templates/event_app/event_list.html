@@ -1,6 +1,9 @@
 {% extends 'event_app/base.html' %}
 
 {% block content %}
+	<div class = "new">
+		<a href="{% url 'event_new' %}" class="content"><span class="glyphicon glyphicon-plus"></span></a>
+	</div>
 	{% for event in events %}
 		<div call = "event">
 			<div class = "date">

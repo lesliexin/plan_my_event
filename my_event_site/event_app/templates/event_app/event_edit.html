@@ -1,7 +1,7 @@
 {% extends 'event_app/base.html' %}
 
 {% block content %}
-    <h1>New event</h1>
+    <h1> New {{ form.Meta.model }} </h1>
     <form method="POST" class="event-form">{% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Save</button>
