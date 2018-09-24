@@ -1,7 +1,8 @@
 {% extends 'event_app/base.html' %}
 
 {% block content %}
-    <h1> New </h1>
+	<a href="{% url 'event_list' %}" class="content">Back  <span class="glyphicon glyphicon-arrow-left"></span></a>
+    <h1> {{ title }}  </h1>
     <form method="POST" class="event-form">{% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Save</button>

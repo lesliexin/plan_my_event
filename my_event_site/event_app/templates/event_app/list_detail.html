@@ -3,19 +3,20 @@
 {% block content %}
 	<div class = "title">
 		<a href="{% url 'event_detail' pk=event.pk %}" class="content">Back  <span class="glyphicon glyphicon-arrow-left"></span></a>
-		<a href="{% url 'item_new' pk=event.pk pk2=which_list.pk%}" class="content">New Item  <span class="glyphicon glyphicon-plus"></span></a>
+		<a href="{% url 'item_new' pk=event.pk pk2=which_list.pk %}" class="content">New Item  <span class="glyphicon glyphicon-plus"></span></a>
+		<a href="{% url 'list_edit' pk=event.pk pk2=which_list.pk %}" class="content">Edit List  <span class="glyphicon glyphicon-pencil"></span></a>
 		<h2>{{ event.name }} - {{ which_list.title }}</h2>
 	</div>
 	<h3> Completed </h3>
 	{% for item in items_completed %}
 		<div class= "items">
-			<h4>{{ item.title }}</h4>
+			<h4><a href="{% url 'item_edit' pk=event.pk pk2=which_list.pk  pk3=item.pk%}">{{ item.title }}</a></h4>
 		</div>
 	{% endfor %}
 	<h3> Not Completed </h3>
 	{% for item in items_not_completed %}
 		<div class= "items">
-			<h4>{{ item.title }}</h4>
+			<h4><a href="{% url 'item_edit' pk=event.pk pk2=which_list.pk  pk3=item.pk%}">{{ item.title }}</a></h4>
 		</div>
 	{% endfor %}
 {% endblock %}	

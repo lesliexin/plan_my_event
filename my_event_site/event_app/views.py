@@ -49,7 +49,7 @@ def event_new(request):
 			return redirect('event_detail', pk=event.pk)
 	else:
 		form = EventForm()
-	return render(request,'event_app/event_edit.html', {'form': form})
+	return render(request,'event_app/event_edit.html', {'form': form, 'title': "New Event"})
 
 def event_edit(request, pk):
     event = get_object_or_404(Event, pk=pk)
@@ -62,7 +62,7 @@ def event_edit(request, pk):
             return redirect('event_detail', pk=event.pk)
     else:
         form = EventForm(instance=event)
-    return render(request, 'event_app/event_edit.html', {'form': form})
+    return render(request, 'event_app/event_edit.html', {'form': form, 'title': "Edit Event"})
 
 
 def list_new(request, pk):
@@ -76,8 +76,21 @@ def list_new(request, pk):
             return redirect('event_detail', pk=event.pk)
     else:
         form = ListForm()
-    return render(request,'event_app/event_edit.html', {'form': form})
+    return render(request,'event_app/event_edit.html', {'form': form, 'title': "New List"})
 
+def list_edit(request, pk, pk2):
+    event = get_object_or_404(Event, pk=pk)
+    list_ = get_object_or_404(List, pk=pk2)
+    if request.method == "POST":
+        form = ListForm(request.POST, instance=list_)
+        if form.is_valid():
+            list_ = form.save(commit=False)
+            list_.an_event = event
+            list_.save()
+            return redirect('event_detail', pk=event.pk)
+    else:
+        form = ListForm(instance=list_)
+    return render(request, 'event_app/event_edit.html', {'form': form, 'title': "Edit List"})
 
 def list_detail(request, pk, pk2):
     event = get_object_or_404(Event, pk=pk)
@@ -123,7 +136,22 @@ def item_new(request, pk, pk2):
             return redirect('event_detail', pk=event.pk)
     else:
         form = ItemForm()
-    return render(request,'event_app/event_edit.html', {'form': form})
+    return render(request,'event_app/event_edit.html', {'form': form, 'title': "New Item"})
+
+def item_edit(request, pk, pk2, pk3):
+    event = get_object_or_404(Event, pk=pk)
+    list_ = get_object_or_404(List, pk=pk2)
+    item = get_object_or_404(Item, pk=pk3)
+    if request.method == "POST":
+        form = ItemForm(request.POST, instance=item)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.a_list = list_
+            item.save()
+            return redirect('event_detail', pk=event.pk)
+    else:
+        form = ItemForm(instance=item)
+    return render(request, 'event_app/event_edit.html', {'form': form, 'title': "Edit Item"})
 
 def person_new(request, pk):
     if request.method == "POST":
@@ -138,5 +166,5 @@ def person_new(request, pk):
             return redirect('event_detail', pk=event.pk)
     else:
         form = PersonForm()
-    return render(request,'event_app/event_edit.html', {'form': form})
+    return render(request,'event_app/event_edit.html', {'form': form, 'title': "New Guest"})
    
