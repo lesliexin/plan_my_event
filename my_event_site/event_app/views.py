@@ -94,4 +94,13 @@ def list_detail(request, pk, pk2):
     })
 
     return render(request,'event_app/list_detail.html')
+
+def guestlist_detail(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    which_event = Event.objects.get(id=pk)
+    people = which_event.guestlist_set.get(title = 'Guest List').person_set.all()
+
+    return render(request,'event_app/guestlist_detail.html', {
+        'people': people, 
+    })
    

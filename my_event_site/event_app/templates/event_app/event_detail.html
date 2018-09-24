@@ -9,16 +9,16 @@
 	</div>
 
 	<div call = "guests">
-		<h3>Guest List</h3>
+		<h3><a href="{% url 'guestlist_detail' pk=event.pk %}">Guest List</a></h3>
 		{% for guest in guestlist %}
-			<h4> {{ guest.full_name }} </h4>
+			<h4> {{ guest.full_name }}</h4>
 		{% endfor %}
 	</div>
 	
 	{% for item_list in items %}
 		{% load index %}
 		<div call = "lists3">
-			<h3> <a href="{% url 'list_detail' pk=event.pk pk2=forloop.counter0 %}">{{ list_titles | index:forloop.counter0 }} </h3>
+			<h3> <a href="{% url 'list_detail' pk=event.pk pk2=forloop.counter0 %}">{{ list_titles | index:forloop.counter0 }} </a></h3>
 			<div call = "items">
 				{% for item in item_list %}
 					<h4> {{ item }} </h4>

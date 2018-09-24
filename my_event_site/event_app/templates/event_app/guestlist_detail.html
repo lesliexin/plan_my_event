@@ -2,11 +2,11 @@
 
 {% block content %}
 	<div class = "title">
-		<h3>{{ which_list.title }}</h3>
+		<h3> Guest List </h3>
 	</div>
-	{% for item in items %}
-		<div call = "items">
-			<h4>{{ item.title }}</h4>
+	{% for person in people %}
+		<div call = "people">
+			<h4>{{ person.full_name}}</h4>
 		</div>
 	{% endfor %}
 {% endblock %}	
