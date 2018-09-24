@@ -9,11 +9,9 @@ PRIORITY_CHOICES = (
   (3, 'High'), 
 ) 
 
-# Create your models here.
 class Event( models.Model ):
 	name = models.CharField(max_length = 200)
 	date = models.DateTimeField('Date of event', default = timezone.now() + datetime.timedelta(days=7))
-
 
 	def __str__(self):
 		return self.name
@@ -21,6 +19,7 @@ class Event( models.Model ):
 class List(models.Model): 
   title = models.CharField(max_length=250, default="", unique=False) 
   an_event = models.ForeignKey(Event, on_delete = models.CASCADE) 
+
   def __str__(self): 
     return self.title 
   class Meta: 
@@ -31,6 +30,7 @@ class List(models.Model):
 class Guestlist(models.Model): 
   title = models.CharField(max_length=250, default="", unique=False) 
   an_event = models.ForeignKey(Event, on_delete = models.CASCADE) 
+
   def __str__(self): 
     return self.title 
   class Meta: 
@@ -57,6 +57,7 @@ class Item(models.Model):
   priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2) 
   completed = models.BooleanField(default=False) 
   a_list = models.ForeignKey(List, on_delete = models.CASCADE) 
+  
   def __str__(self): 
     return self.title 
   class Meta: 

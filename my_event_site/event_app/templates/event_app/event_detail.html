@@ -18,14 +18,14 @@
 			<h4> {{ guest.full_name }}</h4>
 		{% endfor %}
 	</div>
-	
-	{% for item_list in items %}
-		{% load index %}
+
+	{% load index %}
+	{% for a_list in lists_ %}	
 		<div call = "lists3">
-			<h3> <a href="{% url 'list_detail' pk=event.pk pk2=forloop.counter0 %}">{{ list_titles | index:forloop.counter0 }} </a></h3>
+			<h3> <a href="{% url 'list_detail' pk=event.pk pk2=a_list.pk %}">{{ a_list.title }} </a></h3>
 			<div call = "items">
-				{% for item in item_list %}
-					<h4> {{ item }} </h4>
+				{% for item in a_list.item_set.all %}
+					<h4> {{ item.title }} </h4>
 				{% endfor %}
 			</div>
 		</div>

@@ -7,37 +7,28 @@ from django.utils import timezone
 from .models import Event, Person, List, Guestlist, Item
 from .forms import EventForm, ListForm, ItemForm, PersonForm
 
-# Create your views here.
+# displays list of events
 def event_list(request):
 	events = Event.objects.all()
-	return render(request, 'event_app/event_list.html', {'events': events} )
-
-def event_detail(request, pk):
-    event = get_object_or_404(Event, pk=pk)
-    which_event = Event.objects.get(id=pk)
-    lists = list(which_event.list_set.all())
-    lists_ = which_event.list_set.all()
-    guestlist = list(which_event.guestlist_set.all()[0].person_set.all())
-    list_titles = []
-    items = []
-    item_list = []
-    nums = []
-    for indx, list_ in enumerate(lists):
-        item_list = list(lists[indx].item_set.all())
-        items.append(item_list)
-        list_titles.append(list_.title)
-        nums.insert(indx,indx)
-
-    return render(request, 'event_app/event_detail.html', {
-        'list_titles': list_titles, 
-        'event': event, 
-        'guestlist': guestlist, 
-        'items': items,
-        'nums': nums,
-        'lists_': lists_,
-        'which_event': which_event
+	return render(request, 'event_app/event_list.html', {
+        'events': events
     })
 
+# displays the lists in an event and the items in each list
+def event_detail(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    lists_ = which_event.list_set.all()
+    guestlist = list(event.guestlist_set.all()[0].person_set.all())
+
+    return render(request, 'event_app/event_detail.html', { 
+        'event': event, 
+        'guestlist': guestlist, 
+        'lists_': lists_,
+    })
+
+# creates a new event instance
+# redirects to 'event_detail' page
+# generates empty guestlist
 def event_new(request):
 	if request.method == "POST":
 		form = EventForm(request.POST, instance=Event())
@@ -49,8 +40,12 @@ def event_new(request):
 			return redirect('event_detail', pk=event.pk)
 	else:
 		form = EventForm()
-	return render(request,'event_app/event_edit.html', {'form': form, 'title': "New Event"})
+	return render(request,'event_app/event_edit.html', {
+        'form': form,
+        'title': "New Event"
+    })
 
+# edits fields in an existing event
 def event_edit(request, pk):
     event = get_object_or_404(Event, pk=pk)
     if request.method == "POST":
@@ -62,9 +57,14 @@ def event_edit(request, pk):
             return redirect('event_detail', pk=event.pk)
     else:
         form = EventForm(instance=event)
-    return render(request, 'event_app/event_edit.html', {'form': form, 'title': "Edit Event"})
+    
+    return render(request, 'event_app/event_edit.html', {
+        'form': form,
+        'title': "Edit Event"
+    })
 
-
+# creates a new list instance
+# redirects to 'event_detail' page
 def list_new(request, pk):
     if request.method == "POST":
         event = get_object_or_404(Event, pk=pk)
@@ -76,8 +76,12 @@ def list_new(request, pk):
             return redirect('event_detail', pk=event.pk)
     else:
         form = ListForm()
-    return render(request,'event_app/event_edit.html', {'form': form, 'title': "New List"})
+    return render(request,'event_app/event_edit.html', {
+        'form': form,
+        'title': "New List"
+    })
 
+# edits fields in an existing list
 def list_edit(request, pk, pk2):
     event = get_object_or_404(Event, pk=pk)
     list_ = get_object_or_404(List, pk=pk2)
@@ -90,14 +94,15 @@ def list_edit(request, pk, pk2):
             return redirect('event_detail', pk=event.pk)
     else:
         form = ListForm(instance=list_)
-    return render(request, 'event_app/event_edit.html', {'form': form, 'title': "Edit List"})
+    return render(request, 'event_app/event_edit.html', {
+        'form': form,
+        'title': "Edit List"
+    })
 
+# displays the events in a specific list
 def list_detail(request, pk, pk2):
     event = get_object_or_404(Event, pk=pk)
-    which_event = Event.objects.get(id=pk)
-    lists = list(which_event.list_set.all())
-    list_title = lists[pk2]
-    which_list = which_event.list_set.get(title = list_title)   
+    which_list = event.list_set.get(id=pk2)
     items_completed = which_list.item_set.filter(completed = True)
     items_not_completed = which_list.item_set.filter(completed = False)
 
@@ -110,10 +115,10 @@ def list_detail(request, pk, pk2):
 
     return render(request,'event_app/list_detail.html')
 
+# displays the guests in a guestlist
 def guestlist_detail(request, pk):
     event = get_object_or_404(Event, pk=pk)
-    which_event = Event.objects.get(id=pk)
-    people = which_event.guestlist_set.get(title = 'Guest List')
+    people = event.guestlist_set.get(title = 'Guest List')
     people_going = people.person_set.filter(will_attend = True)
     people_not_going = people.person_set.filter(will_attend = False)
 
@@ -123,6 +128,8 @@ def guestlist_detail(request, pk):
         'event': event
     })
 
+# creates a new item instance 
+# redirects to 'event_detail' page
 def item_new(request, pk, pk2):
     if request.method == "POST":
         event = get_object_or_404(Event, pk=pk)
@@ -136,8 +143,12 @@ def item_new(request, pk, pk2):
             return redirect('event_detail', pk=event.pk)
     else:
         form = ItemForm()
-    return render(request,'event_app/event_edit.html', {'form': form, 'title': "New Item"})
+    return render(request,'event_app/event_edit.html', {
+        'form': form,
+        'title': "New Item"
+    })
 
+# edits fields in an existing item
 def item_edit(request, pk, pk2, pk3):
     event = get_object_or_404(Event, pk=pk)
     list_ = get_object_or_404(List, pk=pk2)
@@ -151,8 +162,13 @@ def item_edit(request, pk, pk2, pk3):
             return redirect('event_detail', pk=event.pk)
     else:
         form = ItemForm(instance=item)
-    return render(request, 'event_app/event_edit.html', {'form': form, 'title': "Edit Item"})
+    return render(request, 'event_app/event_edit.html', {
+        'form': form,
+        'title': "Edit Item"
+    })
 
+# creates a new person instance 
+# redirects to 'event_detail' page
 def person_new(request, pk):
     if request.method == "POST":
         event = get_object_or_404(Event, pk=pk)
@@ -166,5 +182,8 @@ def person_new(request, pk):
             return redirect('event_detail', pk=event.pk)
     else:
         form = PersonForm()
-    return render(request,'event_app/event_edit.html', {'form': form, 'title': "New Guest"})
+    return render(request,'event_app/event_edit.html', {
+        'form': form,
+        'title': "New Guest"
+    })
    
