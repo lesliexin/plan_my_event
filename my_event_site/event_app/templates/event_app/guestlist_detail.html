@@ -2,6 +2,7 @@
 
 {% block content %}
 	<div class = "title">
+		<a href="{% url 'event_detail' pk=event.pk%}" class="content"><span class="glyphicon glyphicon-arrow-left"></span></a>
 		<h3> Guest List </h3>
 	</div>
 	{% for person in people %}

@@ -2,6 +2,8 @@
 
 {% block content %}
 	<div class = "title">
+		<a href="{% url 'event_detail' pk=event.pk %}" class="content"><span class="glyphicon glyphicon-arrow-left"></span></a>
+		<a href="{% url 'item_new' pk=event.pk pk2=which_list.pk%}" class="content"><span class="glyphicon glyphicon-plus"></span></a>
 		<h3>{{ which_list.title }}</h3>
 	</div>
 	{% for item in items %}
