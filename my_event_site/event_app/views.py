@@ -81,15 +81,17 @@ def list_new(request, pk):
 
 
 def list_detail(request, pk, pk2):
-  
-    # list_ = get_object_or_404(List, pk=pk)
-    # which_list = List.objects.get(id=pk)
-    # items = list(which_list.item_set.all())
+    event = get_object_or_404(Event, pk=pk)
+    which_event = Event.objects.get(id=pk)
+    lists = list(which_event.list_set.all())
+    list_title = lists[pk2]
+    which_list = which_event.list_set.get(title = list_title)   
+    items = list(which_list.item_set.all())
 
-    # return render(request,'event_app/list_detail.html', {
-    #     'items': items, 
-    #     'which_list': which_list
-    # })
+    return render(request,'event_app/list_detail.html', {
+        'items': items, 
+        'which_list': which_list
+    })
 
     return render(request,'event_app/list_detail.html')
    
